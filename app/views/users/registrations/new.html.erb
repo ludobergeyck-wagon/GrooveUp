@@ -1,33 +1,67 @@
-<div class="container min-vh-100 overflow-hidden mt-5 pt-3">
-<h2>Sign up</h2>
+<div class="min-vh-100 d-flex align-items-center justify-content-center px-3" style="padding-top: 80px; padding-bottom: 30px;">
+ <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
 
+    <div class="card border-dark border-3 shadow">
+      <div class="card-header bg-warning border-dark text-center py-3">
+        <h2 class="fw-bold mb-0">✍️ Create an account</h2>
+      </div>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+      <div class="card-body p-4">
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Email</label>
+            <%= f.input :email,
+                        required: true,
+                        autofocus: true,
+                        label: false,
+                        input_html: {
+                          autocomplete: "email",
+                          class: "form-control border-dark border-2 py-2"
+                        } %>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Password</label>
+            <%= f.input :password,
+                        required: true,
+                        label: false,
+                        hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                        input_html: {
+                          autocomplete: "new-password",
+                          class: "form-control border-dark border-2 py-2"
+                        } %>
+          </div>
+
+          <!-- Password confirmation -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Confirm password</label>
+            <%= f.input :password_confirmation,
+                        required: true,
+                        label: false,
+                        input_html: {
+                          autocomplete: "new-password",
+                          class: "form-control border-dark border-2 py-2"
+                        } %>
+          </div>
+
+          <!-- Buttons -->
+          <div class="d-grid gap-2 mt-4">
+            <%= f.button :submit, "Sign up", class: "btn btn-warning border-dark border-2 fw-bold py-2" %>
+            <%= link_to "Back to login", new_user_session_path, class: "btn btn-outline-dark fw-bold w-100" %>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Back link -->
+    <div class="text-center mt-4">
+      <%= link_to "← Back to Home", root_path, class: "btn btn-outline-dark fw-bold" %>
+    </div>
+
   </div>
-
-<div class="form-actions">
-  <%= f.button :submit,
-               "Sign up",
-               class: "btn btn-primary me-2" %>
-
-  <%= link_to "Back to login",
-              new_user_session_path,
-              class: "btn btn-primary" %>
-</div>
-  
-<% end %>
 </div>
