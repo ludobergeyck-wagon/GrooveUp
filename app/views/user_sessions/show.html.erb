@@ -85,37 +85,22 @@
             </div>
           </div>
           <!-- Next button - Fixé en bas -->
-          <div class="position-fixed bottom-0 start-0 end-0 p-3 bg-transparent">
-            <div class="d-flex justify-content-center">
-              <div class="w-100" style="max-width: 320px;">
-                <%= link_to play_session_path(@user_session, current_question: @current_question),
-                  class: "btn-next d-block w-100 py-3 rounded-3 text-center text-decoration-none",
-                  data: { action: "click->lobby#goToNext" } do %>
-                  Next →
-                <% end %>
-              </div>
-            </div>
-          </div>
+        <div class="position-fixed bottom-0 start-0 end-0 p-3 bg-transparent">
+  <div class="d-flex justify-content-center">
+    <div class="w-100" style="max-width: 320px;">
+      <% if @user_session.group.host_id == current_or_guest_user.id %>
+        <%= link_to play_session_path(@user_session, current_question: @current_question),
+          class: "btn-next d-block w-100 py-3 rounded-3 text-center text-decoration-none",
+          data: { action: "click->lobby#goToNext" } do %>
+          Next →
+        <% end %>
+      <% else %>
+        <div class="btn-next d-block w-100 py-3 rounded-3 text-center" style="opacity: 0.4; cursor: not-allowed;">
+          Waiting for host...
         </div>
-        
-        <!-- Overlay pour débloquer le son sur mobile -->
-        <div id="audio-unlock-overlay" 
-             class="d-none position-fixed top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center"
-             style="background: rgba(0, 0, 0, 0.9); z-index: 9999; gap: 20px;">
-          
-          <div class="text-center" style="pointer-events: none;">
-            <h2 class="text-white mb-3">🔊 Activer le son</h2>
-            <p class="text-muted mb-4" style="max-width: 300px;">
-              Votre navigateur nécessite une interaction pour lancer le son
-            </p>
-          </div>
-          
-          <button 
-            class="btn-brutal-green px-5 py-3 fs-4 fw-bold text-uppercase"
-            style="pointer-events: auto;"
-            data-action="click->audio#unlockAudio">
-            Démarrer 🎵
-          </button>
+      <% end %>
+    </div>
+  </div>
+</div>
         </div>
-        
       </div>
