@@ -46,8 +46,8 @@ export default class extends Controller {
   handleSongStarted(event) {
     // Seulement l'host envoie le signal de démarrage
     if (this.isHostValue) {
-      this.channel.perform('song_started', { 
-        duration: event.detail.duration 
+      this.channel.perform('song_started', {
+        duration: event.detail.duration
       })
     }
   }
@@ -143,6 +143,7 @@ export default class extends Controller {
         if (audioController) audioController.pause()
       }
 
+      // ← ICI : stopTimer est DEHORS du if/else, donc s'applique à tout le monde
       const counterEl = document.querySelector('[data-controller~="counter"]')
       if (counterEl) {
         const counterController = this.application.getControllerForElementAndIdentifier(counterEl, 'counter')
@@ -150,7 +151,7 @@ export default class extends Controller {
       }
 
       if (data.user_id === this.userIdValue) {
-        // I pressed the buzzer
+        // Je suis celui qui a buzzé, rien de spécial
       } else {
         if (buzzer) buzzer.classList.add('d-none')
         if (buzzerMessage) {
@@ -188,6 +189,19 @@ export default class extends Controller {
     if (data.type === 'next_question') {
       window.location = `${this.sessionPathValue}?current_question=${data.question_id}`
     }
+    if (data.type === 'buzzer_partial') {
+      const buzzer = document.querySelector('[data-toggle-target="buzzer"]')
+      const buzzerMessage = document.getElementById('buzzer-message')
+
+      if (data.user_id === this.userIdValue) {
+        // Je suis celui qui a mal répondu → plus de buzzer pour moi
+        if (buzzer) buzzer.classList.add('d-none')
+      } else {
+        // Les autres peuvent rebuzzer
+        if (buzzer) buzzer.classList.remove('d-none')
+        if (buzzerMessage) buzzerMessage.classList.add('d-none')
+      }
+    }
   }
 
   buzzerPressed() {
@@ -221,5 +235,10 @@ export default class extends Controller {
 
   playVideo() {
     this.channel.perform('play_video', { user_id: this.userIdValue })
+  }
+  answerPartial() {
+    this.channel.perform('answer_partial', {
+      user_id: this.userIdValue
+    })
   }
 }
