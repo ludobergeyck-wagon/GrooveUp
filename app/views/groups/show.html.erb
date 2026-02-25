@@ -1,45 +1,47 @@
-<div
-id="controller-lobby"
-data-controller="lobby"
-data-lobby-group-id-value="<%= @group.id %>"
-data-lobby-user-id-value="<%= current_or_guest_user.id %>"
-data-lobby-start-url-value="<%= play_session_path(@user_session) %>"
-class="overflow-hidden container-navbar dvh-100" style="height: calc(100vh - 60px)"
->
+<div id="controller-lobby" data-controller="lobby" data-lobby-group-id-value="<%= @group.id %>"
+  data-lobby-user-id-value="<%= current_or_guest_user.id %>"
+  data-lobby-start-url-value="<%= play_session_path(@user_session) %>" class="overflow-hidden container-navbar dvh-100"
+  style="height: calc(100vh - 60px)">
   <div class="container d-flex flex-column justify-content-between align-items-center h-100">
     <div class="text-center">
-      <h1>Lobby <%= @group.id %></h1>
+      <h1>Lobby <%= @group.id %>
+      </h1>
 
       <!-- Formulaire de pseudo -->
       <div class="pseudo-form mb-3">
-        <%= form_with url: update_pseudo_group_path(@group), method: :patch, local: true, class: "d-flex gap-2 justify-content-center align-items-center" do |f| %>
-          <%= f.text_field :pseudo,
-              value: current_or_guest_user.pseudo,
-              placeholder: "Enter your nickname",
-              class: "form-input",
-              style: "max-width: 200px;",
-              maxlength: 15 %>
-          <%= f.submit "Save", class: "btn-brutal-green", style: "padding: 8px 16px;" %>
-        <% end %>
-        <p class="text-muted small mt-1">Current: <strong><%= current_or_guest_user.display_name %></strong></p>
+        <%= form_with url: update_pseudo_group_path(@group), method: :patch, local: true,
+          class: "d-flex gap-2 justify-content-center align-items-center" do |f| %>
+          <%= f.text_field :pseudo, value: current_or_guest_user.pseudo, placeholder: "Enter your nickname" ,
+            class: "form-input" , style: "max-width: 200px;" , maxlength: 15 %>
+            <%= f.submit "Save" , class: "btn-brutal-green" , style: "padding: 8px 16px;" %>
+              <% end %>
+                <p class="text-muted small mt-1">Current: <strong>
+                    <%= current_or_guest_user.display_name %>
+                  </strong></p>
       </div>
 
       <%= raw(@qr_svg.html_safe) %>
-      <p class="fw-bold"><%= @content %></p>
-      <div id="players" class="row row-cols-4 g-2 justify-content-center">
-        <% @connected_users.each do |user| %>
-          <%= render 'players', user: user %>
-        <% end %>
-      </div>
+        <p class="fw-bold">
+          <%= @content %>
+        </p>
+        <div id="players" class="row row-cols-4 g-2 justify-content-center">
+          <% @connected_users.each do |user| %>
+            <%= render 'players' , user: user %>
+              <% end %>
+        </div>
     </div>
     <div>
-      <button
-  type="button"
-  class="btn-submit w-100 py-3 rounded-3 text-uppercase fw-bold mb-3"
-  data-action="click->lobby#start"
-        >
-        Start game
-      </button>
+      <% if @group.host_id==current_or_guest_user.id %>
+        <button type="button" class="btn-submit w-100 py-3 rounded-3 text-uppercase fw-bold mb-3"
+          data-action="click->lobby#start">
+          Start game
+        </button>
+        <% else %>
+          <div class="btn-submit w-100 py-3 rounded-3 text-uppercase fw-bold mb-3 text-center"
+            style="opacity: 0.4; cursor: not-allowed;">
+            Waiting for host...
+          </div>
+          <% end %>
     </div>
   </div>
 </div>

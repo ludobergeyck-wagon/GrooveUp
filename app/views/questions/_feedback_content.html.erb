@@ -1,5 +1,8 @@
 <turbo-frame id="feedback_content">
-  <div class="position-absolute feedback-over" data-toggle-target="feedback" data-success="<%= question.successful_title && question.successful_artist %>">
+ <div class="position-absolute feedback-over" 
+  data-toggle-target="feedback"
+  data-success="<%= question.successful_title && question.successful_artist %>"
+  data-partial="<%= (question.successful_title ^ question.successful_artist) %>">
     <% if question.successful_title && question.successful_artist %>
       <div class="d-block">
         <h2>Correct!</h2>

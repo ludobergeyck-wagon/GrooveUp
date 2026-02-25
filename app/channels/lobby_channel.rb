@@ -126,5 +126,14 @@ end
     }
   )
   end
+  def answer_partial(data)
+  ActionCable.server.broadcast(
+    "lobby_#{@group.id}",
+    {
+      type: 'buzzer_partial',
+      user_id: data['user_id']
+    }
+  )
+  end
 
 end
