@@ -1,10 +1,5 @@
 <div class="container-navbar overflow-hidden p-3 bg-results d-flex flex-column justify-content-between">
 
-  <div class="shape-1"></div>
-  <div class="shape-2"></div>
-  <div class="shape-3"></div>
-
-
   <% UserSession.where(group: @group).count == 1 ? @mode = "solo" : @mode = "match" %>
   <!-- Below is to show match results -->
   <% if @mode == "match" %>

@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :playlists
   has_many :user_sessions
   has_many :questions
+  has_many :user_sessions, dependent: :destroy
   has_one_attached :avatar
   # validates :pseudo, presence: true, uniqueness: true
 
